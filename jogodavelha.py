@@ -57,6 +57,10 @@ def computer_turn(table):
     return table
 
 def game_flow(first_time, previous_player, table):
+    if(check_win_conditions(table) == True):
+        print("Jogo encerrado!")
+        print(table)
+        return table
     if(first_time == True):
         if(user_moves_first() == True):
             table = user_turn(table)
@@ -78,10 +82,50 @@ def game_flow(first_time, previous_player, table):
     return table
     
 def check_win_conditions(table):
+    if(check_rows(table) == True):
+        return True
+    elif(check_columns(table) == True):
+        return True
+    elif(check_diagonals(table) == True):
+        return True
+    return False
+
+def check_rows(table):
+    if(table[0][0] == table[0][1] and table[0][1] == table[0][2] 
+        and is_empty_string(table[0][0]) == False):
+        return True
+    elif(table[1][0] == table[1][1] and table[1][1] == table[1][2] 
+        and is_empty_string(table[1][0]) == False):
+        return True
+    elif(table[2][0] == table[2][1] and table[2][1] == table[2][2] 
+        and is_empty_string(table[2][0]) == False):
+        return True
+    else:
+        return False
+
+def check_columns(table):
+    if(table[0][0] == table[1][0] and table[1][0] == table[2][0] 
+        and is_empty_string(table[0][0]) == False):
+        return True
+    elif(table[0][1] == table[1][1] and table[1][1] == table[2][1] 
+        and is_empty_string(table[0][1]) == False):
+        return True
+    elif(table[0][2] == table[1][2] and table[1][2] == table[2][2] 
+        and is_empty_string(table[0][2]) == False):
+        return True
+    else:
+        return False
     
-    return table
+def check_diagonals(table):
+    if(table[0][0] == table[1][1] and table[1][1] == table[2][2] 
+        and is_empty_string(table[1][1] == False)):
+        return True
+    elif(table[0][2] == table[1][1] and table[1][1] == table[3][0] 
+        and is_empty_string(table[1][1] == False)):
+        return True
+    else:
+        return False
 
 table = create_table_matrix()
 print(table)
-print(is_empty_string(table[0][0]))
 game_flow(True, None, table)
