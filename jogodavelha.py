@@ -24,7 +24,7 @@ def row_and_column_picker():
             print("Linhas e colunas só podem ser 1, 2 ou 3.")
         else: 
             valid = True
-    return (line-1, column-1) # -1 por conta dos índices da lista
+    return (line-1, column-1) # -1 por conta dos índices da matriz
 
 def user_turn(table):
     line_and_column = row_and_column_picker()
