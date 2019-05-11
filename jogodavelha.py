@@ -59,7 +59,6 @@ def computer_turn(table):
 def game_flow(first_time, previous_player, table):
     if(check_win_conditions(table) == True):
         print("Jogo encerrado!")
-        print(table)
         return table
     if(first_time == True):
         if(user_moves_first() == True):
@@ -83,22 +82,37 @@ def game_flow(first_time, previous_player, table):
     
 def check_win_conditions(table):
     if(check_rows(table) == True):
+        #print(check_rows(table))
         return True
     elif(check_columns(table) == True):
+        #print(check_columns(table))
         return True
     elif(check_diagonals(table) == True):
+        #print(check_diagonals(table))
         return True
     return False
+
+def print_winner(character):
+    if character == 'U':
+        print("O usuário venceu!")
+    elif character == 'C':
+        print("O computador venceu!")
+    else:
+        print("Não conseguimos detectar o vencedor.")
+    return None
 
 def check_rows(table):
     if(table[0][0] == table[0][1] and table[0][1] == table[0][2] 
         and is_empty_string(table[0][0]) == False):
+        print_winner(table[0][0])
         return True
     elif(table[1][0] == table[1][1] and table[1][1] == table[1][2] 
         and is_empty_string(table[1][0]) == False):
+        print_winner(table[1][0])
         return True
     elif(table[2][0] == table[2][1] and table[2][1] == table[2][2] 
         and is_empty_string(table[2][0]) == False):
+        print_winner(table[2][0])
         return True
     else:
         return False
@@ -106,22 +120,27 @@ def check_rows(table):
 def check_columns(table):
     if(table[0][0] == table[1][0] and table[1][0] == table[2][0] 
         and is_empty_string(table[0][0]) == False):
+        print_winner(table[0][0])
         return True
     elif(table[0][1] == table[1][1] and table[1][1] == table[2][1] 
         and is_empty_string(table[0][1]) == False):
+        print_winner(table[0][1])
         return True
     elif(table[0][2] == table[1][2] and table[1][2] == table[2][2] 
         and is_empty_string(table[0][2]) == False):
+        print_winner(table[0][2])
         return True
     else:
         return False
     
 def check_diagonals(table):
     if(table[0][0] == table[1][1] and table[1][1] == table[2][2] 
-        and is_empty_string(table[1][1] == False)):
+        and is_empty_string(table[1][1]) == False):
+        print_winner(table[0][0])
         return True
-    elif(table[0][2] == table[1][1] and table[1][1] == table[3][0] 
-        and is_empty_string(table[1][1] == False)):
+    elif(table[0][2] == table[1][1] and table[1][1] == table[2][0] 
+        and is_empty_string(table[1][1]) == False):
+        print_winner(table[0][2])
         return True
     else:
         return False
