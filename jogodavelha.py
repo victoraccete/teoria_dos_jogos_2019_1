@@ -48,8 +48,15 @@ def choose_first_empty(table):
             if is_empty_string(table[i][j]):
                 table = mark_table('C', i, j, table)
                 return table
-    print("Não há mais espaços disponíveis no tabuleiro")
     return table
+
+def is_there_empty_space(table):
+    empty_space = False
+    for i in range(3):
+        for j in range(3):
+            if is_empty_string(table[i][j]):
+                empty_space = True
+    return empty_space
 
 def computer_turn(table):
     table = choose_first_empty(table)
@@ -60,7 +67,10 @@ def game_flow(first_time, previous_player, table):
     if(check_win_conditions(table) == True):
         print("Jogo encerrado!")
         return table
-    if(first_time == True):
+    elif(is_there_empty_space(table) == False):
+        print("Deu velha.")
+        return table
+    elif(first_time == True):
         if(user_moves_first() == True):
             table = user_turn(table)
             table = game_flow(False, 'U', table)
@@ -69,11 +79,11 @@ def game_flow(first_time, previous_player, table):
             table = game_flow(False, 'C', table)
     else:
         if(previous_player == 'C'):
-            print("Sua vez!")
+            print("Sua vez.")
             table = user_turn(table)
             table = game_flow(False, 'U', table)
         elif(previous_player == 'U'):
-            print("Vez da máquina!")
+            print("Vez da máquina.")
             table = computer_turn(table)
             table = game_flow(False, 'C', table)
         else:
