@@ -154,6 +154,32 @@ def check_diagonals(table):
         return True
     else:
         return False
+    
+def check_if_about_to_win_by_rows(table):
+    for i in range(3):
+        counter_u = 0
+        counter_c = 0
+        for j in range(3):
+            empty_column_position = -1
+            
+            if(is_empty_string(table[i][j]) == False):
+                if(table[i][j] == 'U'):
+                    counter_u += 1
+                elif(table[i][j] == 'C'):
+                    counter_c += 1
+            elif(is_empty_string(table[i][j]) == True):
+                empty_column_position = j
+                
+        if counter_u == 2 and counter_c == 0:
+            # se tiver dois U na linha e nenhum C
+            print("Usuário prestes a ganhar.")
+            return i, empty_column_position
+        elif counter_c == 2 and counter_u == 0:
+            # se tiver dois C na linha e nenhum U
+            print("Computador prestes a ganhar.")
+            return i, empty_column_position
+    #
+    return None
 
 table = create_table_matrix()
 print(table)
