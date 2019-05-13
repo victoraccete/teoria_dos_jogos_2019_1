@@ -59,9 +59,23 @@ def is_there_empty_space(table):
     return empty_space
 
 def computer_turn(table):
-    table = choose_first_empty(table)
-    print(table)
+    positions = check_if_about_to_win_by_rows(table)
+    if(positions == None):
+        positions = check_if_about_to_win_by_columns(table)
+        print("Ninguém prestes a ganhar.")
+    
+    if(positions == None):
+        table = choose_first_empty(table)
+        print(table)
+        return table
+    else:
+        print("Alguém prestes a ganhar em: ")
+        print(positions[0], positions[1])
+        table = mark_table('C', positions[0], positions[1], table)
+        print(table)
+        return table
     return table
+        
 
 def game_flow(first_time, previous_player, table):
     if(check_win_conditions(table) == True):
@@ -154,13 +168,13 @@ def check_diagonals(table):
         return True
     else:
         return False
-    
+
 def check_if_about_to_win_by_rows(table):
     for i in range(3):
         counter_u = 0
         counter_c = 0
         for j in range(3):
-            empty_column_position = -1
+            #empty_column_position = -1
             
             if(is_empty_string(table[i][j]) == False):
                 if(table[i][j] == 'U'):
@@ -168,17 +182,57 @@ def check_if_about_to_win_by_rows(table):
                 elif(table[i][j] == 'C'):
                     counter_c += 1
             elif(is_empty_string(table[i][j]) == True):
+                # para armazenar o espaço vazio, caso seja necessário preenchê-lo
                 empty_column_position = j
                 
         if counter_u == 2 and counter_c == 0:
             # se tiver dois U na linha e nenhum C
             print("Usuário prestes a ganhar.")
+            print(i, empty_column_position)
             return i, empty_column_position
         elif counter_c == 2 and counter_u == 0:
             # se tiver dois C na linha e nenhum U
             print("Computador prestes a ganhar.")
             return i, empty_column_position
-    #
+    return None
+
+def check_if_about_to_win_by_columns(table):
+    for j in range(3):
+        counter_u = 0
+        counter_c = 0
+        for i in range(3):
+            #empty_row_position = -1
+            
+            if(is_empty_string(table[i][j]) == False):
+                if(table[i][j] == 'U'):
+                    counter_u += 1
+                elif(table[i][j] == 'C'):
+                    counter_c += 1
+            elif(is_empty_string(table[i][j]) == True):
+                # para armazenar o espaço vazio, caso seja necessário preenchê-lo
+                empty_row_position = i
+                
+        if counter_u == 2 and counter_c == 0:
+            # se tiver dois U na linha e nenhum C
+            #print("Usuário prestes a ganhar.")
+            return empty_row_position, j
+        elif counter_c == 2 and counter_u == 0:
+            # se tiver dois C na linha e nenhum U
+            #print("Computador prestes a ganhar.")
+            return empty_row_position, j
+    return None
+
+def check_if_about_to_win_by_diagonals(table):
+    counter_u = 0
+    counter_c = 0
+    first_diagonal = [[0,0], [1,1], [2,2]]
+    second_diagonal = [[0,2], [1,1], [2,0]]
+    #print(first_diagonal[0][0])
+    for i in range(len(first_diagonal)):
+        pos = first_diagonal[i]
+        if(is_empty_string(table[pos[0]][pos[1]]) == False):
+            
+
     return None
 
 table = create_table_matrix()
