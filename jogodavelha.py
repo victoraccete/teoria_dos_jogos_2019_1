@@ -58,6 +58,40 @@ def is_there_empty_space(table):
                 empty_space = True
     return empty_space
 
+def is_there_a_side_available(table):
+    sides = [[0,1], [1,0], [1,2], [2,1]]
+    for i in range(len(sides)):
+        r, c = sides[i]
+        if(is_empty_string(table[r][c])):
+            return True
+    return False
+
+def pick_one_side(table):
+    sides = [[0,1], [1,0], [1,2], [2,1]]
+    for i in range(len(sides)):
+        r, c = sides[i]
+        if(is_empty_string(table[r][c]) == True):
+            table = mark_table('C', r, c, table)
+            return table
+    return None
+
+def is_there_a_diagonal_available(table):
+    diagonals = [[0,0], [2,2], [0,2], [2,0]]
+    for i in range(len(diagonals)):
+        r, c = diagonals[i]
+        if(is_empty_string(table[r][c])):
+            return True
+    return False
+
+def pick_one_diagonal(table):
+    diagonals = [[0,0], [2,2], [0,2], [2,0]]
+    for i in range(len(diagonals)):
+        r, c = diagonals[i]
+        if(is_empty_string(table[r][c]) == True):
+            table = mark_table('C', r, c, table)
+            return table
+    return None
+        
 def computer_turn(table):
     positions = check_if_about_to_win_by_rows(table)
     if(positions == None):
@@ -66,9 +100,32 @@ def computer_turn(table):
         positions = check_if_about_to_win_by_diagonals(table)        
     
     if(positions == None):
-        table = choose_first_empty(table)
-        print(table)
-        return table
+        if(is_middle_available(table) == True):
+            table = mark_table('C', 1, 1, table)
+            print(table)
+            return table
+        elif(table[1][1] == 'C'):
+            if(is_there_a_side_available(table) == False):
+                table = choose_first_empty(table)
+                print(table)
+                return table
+            else:
+                table = pick_one_side(table)
+                print(table)
+                return table
+        elif(table[1][1] == 'U'):
+            if(is_there_a_diagonal_available(table) == False):
+                table = choose_first_empty(table)
+                print(table)
+                return table
+            else:
+                table = pick_one_diagonal(table)
+                print(table)
+                return table
+        else:
+            table = choose_first_empty(table)
+            print(table)
+            return table
     else:
         print("Alguém prestes a ganhar em: ")
         print(positions[0], positions[1])
@@ -169,6 +226,10 @@ def check_diagonals(table):
         return True
     else:
         return False
+    
+def is_middle_available(table):
+    return is_empty_string(table[1][1])
+        
 
 def check_if_about_to_win_by_rows(table):
     for i in range(3):
