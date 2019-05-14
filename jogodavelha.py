@@ -93,13 +93,16 @@ def pick_one_diagonal(table):
     return None
         
 def computer_turn(table):
-    positions = check_if_about_to_win_by_rows(table)
+    # Primeiro, checa se alguém está prestes a ganhar em algum lugar
+    positions = check_if_about_to_win_by_rows(table) # armazena a posição em 
+                                                     # que ocorrerá a vitória
     if(positions == None):
         positions = check_if_about_to_win_by_columns(table)
     if(positions == None):
-        positions = check_if_about_to_win_by_diagonals(table)        
-    
+        positions = check_if_about_to_win_by_diagonals(table) 
+    # Se ninguém estiver prestes a ganhar:        
     if(positions == None):
+        # Sempre que possível, tentará começar no meio
         if(is_middle_available(table) == True):
             table = mark_table('C', 1, 1, table)
             print(table)
@@ -126,9 +129,10 @@ def computer_turn(table):
             table = choose_first_empty(table)
             print(table)
             return table
+    # Caso haja alguém prestes a ganhar
     else:
-        print("Alguém prestes a ganhar em: ")
-        print(positions[0], positions[1])
+        #print("Alguém prestes a ganhar em: ")
+        #print(positions[0], positions[1])
         table = mark_table('C', positions[0], positions[1], table)
         print(table)
         return table
