@@ -62,7 +62,8 @@ def computer_turn(table):
     positions = check_if_about_to_win_by_rows(table)
     if(positions == None):
         positions = check_if_about_to_win_by_columns(table)
-        print("Ninguém prestes a ganhar.")
+    if(positions == None):
+        positions = check_if_about_to_win_by_diagonals(table)        
     
     if(positions == None):
         table = choose_first_empty(table)
@@ -231,8 +232,40 @@ def check_if_about_to_win_by_diagonals(table):
     for i in range(len(first_diagonal)):
         pos = first_diagonal[i]
         if(is_empty_string(table[pos[0]][pos[1]]) == False):
+            if(table[pos[0]][pos[1]] == 'U'):
+                counter_u += 1
+            elif(table[pos[0]][pos[1]] == 'C'):
+                counter_c += 1
+        elif(is_empty_string(table[pos[0]][pos[1]]) == True):
+            # para armazenar o espaço vazio, caso seja necessário preenchê-lo
+            empty_positions = pos[0], pos[1]    
+    if counter_u == 2 and counter_c == 0:
+        # se tiver dois U na diagonal e nenhum C
+        return empty_positions
+    elif counter_c == 2 and counter_u == 0:
+        # se tiver dois C na diagonal e nenhum U
+        return empty_positions
+    
+    counter_u = 0
+    counter_c = 0
+    for i in range(len(second_diagonal)):
+        #print(i)
+        pos = second_diagonal[i]
+        if(is_empty_string(table[pos[0]][pos[1]]) == False):
+            if(table[pos[0]][pos[1]] == 'U'):
+                counter_u += 1
+            elif(table[pos[0]][pos[1]] == 'C'):
+                counter_c += 1
+        elif(is_empty_string(table[pos[0]][pos[1]]) == True):
+            # para armazenar o espaço vazio, caso seja necessário preenchê-lo
+            empty_positions = pos[0], pos[1]    
+    if counter_u == 2 and counter_c == 0:
+        # se tiver dois U na diagonal e nenhum C
+        return empty_positions
+    elif counter_c == 2 and counter_u == 0:
+        # se tiver dois C na diagonal e nenhum U
+        return empty_positions
             
-
     return None
 
 table = create_table_matrix()
