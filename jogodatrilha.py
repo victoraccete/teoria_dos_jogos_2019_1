@@ -95,14 +95,45 @@ def mark_table(positions, pos, player):
             positions = mark_table(positions, pos, player)
     return positions
 
+def choose_first_pos(positions):
+    for i in range(24):
+        if(positions[i].status == 'O'):
+            return mark_table(positions, i, 'C')
+    return positions
+
 def pieces_positioning(positions):
     user_counter = 0
     ai_counter = 0
     if(user_moves_first() == True):
-        pos = int(input("Escolha a posição de 0 a 23: \n"))
+        pos = int(input("Escolha a posição de 0 a 23:\n"))
         positions = mark_table(positions, pos, 'U')
+        positions = choose_first_pos(positions)
         user_counter += 1
-    draw_status_table(positions)
+        ai_counter += 1
+        draw_status_table(positions)
+        while(user_counter < 9 and ai_counter < 9):
+            pos = int(input("Escolha a posição de 0 a 23:\n"))
+            positions = mark_table(positions, pos, 'U')
+            positions = choose_first_pos(positions)
+            user_counter += 1
+            ai_counter += 1
+            draw_status_table(positions)
+    else:
+        positions = choose_first_pos(positions)
+        draw_status_table(positions)
+        pos = int(input("Escolha a posição de 0 a 23:\n"))
+        positions = mark_table(positions, pos, 'U')
+        ai_counter += 1
+        user_counter += 1 
+        draw_status_table(positions)
+        while(user_counter < 9 and ai_counter < 9):
+            positions = choose_first_pos(positions)
+            draw_status_table(positions)
+            pos = int(input("Escolha a posição de 0 a 23:\n"))
+            positions = mark_table(positions, pos, 'U')
+            ai_counter += 1
+            user_counter += 1 
+            draw_status_table(positions)
     return positions
 
 positions = []
