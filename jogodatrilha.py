@@ -111,6 +111,7 @@ def pieces_positioning(positions):
         user_counter += 1
         ai_counter += 1
         draw_status_table(positions)
+        print(str(9-user_counter) + " jogadas restantes.")
         while(user_counter < 9 and ai_counter < 9):
             pos = int(input("Escolha a posição de 0 a 23:\n"))
             positions = mark_table(positions, pos, 'U')
@@ -118,6 +119,7 @@ def pieces_positioning(positions):
             user_counter += 1
             ai_counter += 1
             draw_status_table(positions)
+            print(str(9-user_counter) + " jogadas restantes.")
     else:
         positions = choose_first_pos(positions)
         draw_status_table(positions)
@@ -126,6 +128,7 @@ def pieces_positioning(positions):
         ai_counter += 1
         user_counter += 1 
         draw_status_table(positions)
+        print(str(9-user_counter) + " jogadas restantes.")
         while(user_counter < 9 and ai_counter < 9):
             positions = choose_first_pos(positions)
             draw_status_table(positions)
@@ -134,6 +137,7 @@ def pieces_positioning(positions):
             ai_counter += 1
             user_counter += 1 
             draw_status_table(positions)
+            print(str(9-user_counter) + " jogadas restantes.")
     return positions
 
 positions = []
