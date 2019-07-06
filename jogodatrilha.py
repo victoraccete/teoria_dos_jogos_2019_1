@@ -55,12 +55,12 @@ class TablePosition():
             self.adjs = [19, 21, 23]
         elif self.pos_num == 23:
             self.adjs = [14, 22] 
-            
+          
 def user_moves_first():
     if randint(0,1) == 1:
         return True
     else:
-        return False
+        return True # usuario sempre começando 
          
 def draw_status_table(positions):
     print("As posições estão enumeradas de 0 a 23, por linha, da esquerda para a direita.")
@@ -90,6 +90,19 @@ def mark_table(positions, pos, player):
     if(pos >= 0 and pos <= 24):
         if(positions[pos].status == 'O'):
             positions[pos].status = player
+        else:
+            print("De 0 a 23.")
+            positions = mark_table(positions, pos, player)
+    return positions
+
+def pieces_positioning(positions):
+    user_counter = 0
+    ai_counter = 0
+    if(user_moves_first() == True):
+        pos = int(input("Escolha a posição de 0 a 23: \n"))
+        positions = mark_table(positions, pos, 'U')
+        user_counter += 1
+    draw_status_table(positions)
     return positions
 
 positions = []
@@ -98,13 +111,14 @@ for i in range(24):
     pos.set_adjs()
     positions.append(pos)
 
-# Esse for é desnecessário:   
-for i in range(24):
-    print(positions[i].pos_num)
-    print(positions[i].adjs)
+# Esse 'for' é desnecessário:   
+#for i in range(24):
+#    print(positions[i].pos_num)
+#    print(positions[i].adjs)
     
 
 draw_status_table(positions)
+pieces_positioning(positions)
 #positions = mark_table(positions, 23, 'C')
 #positions = mark_table(positions, 12, 'U')
 #draw_status_table(positions)
