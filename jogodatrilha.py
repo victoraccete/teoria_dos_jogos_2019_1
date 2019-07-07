@@ -1,5 +1,7 @@
 from random import randint
 
+line_possibilities = [[0,1,2], [0]]
+
 class TablePosition():
     def __init__(self, pos_num, adjs):
         self.pos_num = pos_num
@@ -8,9 +10,9 @@ class TablePosition():
     
     def set_adjs(self):
         if self.pos_num == 0:
-            self.adjs = [1, 2]
+            self.adjs = [1, 9]
         elif self.pos_num == 1:
-            self.adjs = [0, 2]
+            self.adjs = [0, 2, 4]
         elif self.pos_num == 2:
             self.adjs = [1, 14]
         elif self.pos_num == 3:
@@ -34,7 +36,7 @@ class TablePosition():
         elif self.pos_num == 12:
             self.adjs = [8, 13, 17]
         elif self.pos_num == 13:
-            self.adjs = [5, 12, 10, 20]
+            self.adjs = [5, 12, 14, 20]
         elif self.pos_num == 14:
             self.adjs = [2, 13, 23]
         elif self.pos_num == 15:
@@ -58,33 +60,36 @@ class TablePosition():
           
 def user_moves_first():
     if randint(0,1) == 1:
-        return True
+        return False
     else:
-        return True # usuario sempre começando 
+        return False # usuario sempre começando 
          
 def draw_status_table(positions):
     print("As posições estão enumeradas de 0 a 23, por linha, da esquerda para a direita.")
     print(str(positions[0].status) + " - - - - - " + str(positions[1].status) + 
           " - - - - - " + str(positions[2].status))
     
-    print("| - " + str(positions[3].status) + " - - - " + str(positions[4].status) + 
-          " - - - " + str(positions[5].status) + " - | ")
+    print("|   " + str(positions[3].status) + " - - - " + str(positions[4].status) + 
+          " - - - " + str(positions[5].status) + "   | ")
     
-    print("| - | - " + str(positions[6].status) + " - " + str(positions[7].status) + 
-          " - " + str(positions[8].status) + " - | - | ")
+    print("|   |   " + str(positions[6].status) + " - " + str(positions[7].status) + 
+          " - " + str(positions[8].status) + "   |   | ")
     
     print(str(positions[9].status) + " - " + str(positions[10].status) + 
           " - " + str(positions[11].status) + "       " + str(positions[12].status)
           + " - " + str(positions[13].status) + " - " + str(positions[14].status))
     
-    print("| - | - " + str(positions[15].status) + " - " + str(positions[16].status) + 
-          " - " + str(positions[17].status) + " - | - | ")
+    print("|   |   " + str(positions[15].status) + " - " + str(positions[16].status) + 
+          " - " + str(positions[17].status) + "   |   | ")
     
-    print("| - " + str(positions[18].status) + " - - - " + str(positions[19].status) + 
-          " - - - " + str(positions[20].status) + " - | ")
+    print("|   " + str(positions[18].status) + " - - - " + str(positions[19].status) + 
+          " - - - " + str(positions[20].status) + "   | ")
     
     print(str(positions[21].status) + " - - - - - " + str(positions[22].status) + 
           " - - - - - " + str(positions[23].status))
+    
+#def check_line(positions, most_recent_pos):
+    
     
 def mark_table(positions, pos, player):
     if(pos >= 0 and pos <= 24):
@@ -107,7 +112,7 @@ def pieces_positioning(positions):
     if(user_moves_first() == True):
         pos = int(input("Escolha a posição de 0 a 23:\n"))
         positions = mark_table(positions, pos, 'U')
-        positions = choose_first_pos(positions)
+        positions = choose_first_pos(positions) #
         user_counter += 1
         ai_counter += 1
         draw_status_table(positions)
@@ -115,13 +120,13 @@ def pieces_positioning(positions):
         while(user_counter < 9 and ai_counter < 9):
             pos = int(input("Escolha a posição de 0 a 23:\n"))
             positions = mark_table(positions, pos, 'U')
-            positions = choose_first_pos(positions)
-            user_counter += 1
+            positions = choose_first_pos(positions) #
+            user_counter += 1 
             ai_counter += 1
             draw_status_table(positions)
             print(str(9-user_counter) + " jogadas restantes.")
     else:
-        positions = choose_first_pos(positions)
+        positions = choose_first_pos(positions) #
         draw_status_table(positions)
         pos = int(input("Escolha a posição de 0 a 23:\n"))
         positions = mark_table(positions, pos, 'U')
@@ -130,7 +135,7 @@ def pieces_positioning(positions):
         draw_status_table(positions)
         print(str(9-user_counter) + " jogadas restantes.")
         while(user_counter < 9 and ai_counter < 9):
-            positions = choose_first_pos(positions)
+            positions = choose_first_pos(positions) #
             draw_status_table(positions)
             pos = int(input("Escolha a posição de 0 a 23:\n"))
             positions = mark_table(positions, pos, 'U')
