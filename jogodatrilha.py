@@ -1,6 +1,12 @@
 from random import randint
 
-line_possibilities = [[0,1,2], [0]]
+line_possibilities = [[0,1,2],[0,9,21],[1,4,7],[2,14,23],
+                      [3,10,18],[3,4,5],[5,13,20],
+                      [6,11,15],[6,7,8],[8,12,17],
+                      [9,10,11],[12,13,14],[15,16,17],
+                      [16,19,22],[18,19,20],[21,22,23]]
+most_recently_played_pos = -1
+
 
 class TablePosition():
     def __init__(self, pos_num, adjs):
@@ -88,21 +94,36 @@ def draw_status_table(positions):
     print(str(positions[21].status) + " - - - - - " + str(positions[22].status) + 
           " - - - - - " + str(positions[23].status))
     
-#def check_line(positions, most_recent_pos):
+def check_line(positions):
+    global most_recently_played_pos
+    for i in range(len(line_possibilities)):
+        if most_recently_played_pos in line_possibilities[i]:
+            item0 = positions[line_possibilities[i][0]].status
+            item1 = positions[line_possibilities[i][1]].status
+            item2 = positions[line_possibilities[i][2]].status
+            if item0 == item1 and item1 == item2 and item2 != 'O':
+                print("Entrou aqui!")
+                return True
+    return False
     
     
 def mark_table(positions, pos, player):
+    global most_recently_played_pos
     if(pos >= 0 and pos <= 24):
         if(positions[pos].status == 'O'):
             positions[pos].status = player
         else:
-            print("De 0 a 23.")
-            positions = mark_table(positions, pos, player)
+            print("OPS, algo bizarro aconteceu.")
+            #positions = mark_table(positions, pos, player)
+    most_recently_played_pos = pos
+    print("mrpp: " + str(most_recently_played_pos))
     return positions
 
 def choose_first_pos(positions):
+    global most_recently_played_pos
     for i in range(24):
         if(positions[i].status == 'O'):
+            most_recently_played_pos = i
             return mark_table(positions, i, 'C')
     return positions
 
@@ -112,7 +133,11 @@ def pieces_positioning(positions):
     if(user_moves_first() == True):
         pos = int(input("Escolha a posição de 0 a 23:\n"))
         positions = mark_table(positions, pos, 'U')
+        if check_line(positions) == True:
+            print("FORMOU LINHA!")
         positions = choose_first_pos(positions) #
+        if check_line(positions) == True:
+            print("FORMOU LINHA!")
         user_counter += 1
         ai_counter += 1
         draw_status_table(positions)
@@ -120,25 +145,37 @@ def pieces_positioning(positions):
         while(user_counter < 9 and ai_counter < 9):
             pos = int(input("Escolha a posição de 0 a 23:\n"))
             positions = mark_table(positions, pos, 'U')
+            if check_line(positions) == True:
+                print("FORMOU LINHA!")
             positions = choose_first_pos(positions) #
+            if check_line(positions) == True:
+                print("FORMOU LINHA!")
             user_counter += 1 
             ai_counter += 1
             draw_status_table(positions)
             print(str(9-user_counter) + " jogadas restantes.")
     else:
         positions = choose_first_pos(positions) #
+        if check_line(positions) == True:
+            print("FORMOU LINHA!")
         draw_status_table(positions)
         pos = int(input("Escolha a posição de 0 a 23:\n"))
         positions = mark_table(positions, pos, 'U')
+        if check_line(positions) == True:
+            print("FORMOU LINHA!")
         ai_counter += 1
         user_counter += 1 
         draw_status_table(positions)
         print(str(9-user_counter) + " jogadas restantes.")
         while(user_counter < 9 and ai_counter < 9):
             positions = choose_first_pos(positions) #
+            if check_line(positions) == True:
+                print("FORMOU LINHA!")
             draw_status_table(positions)
             pos = int(input("Escolha a posição de 0 a 23:\n"))
             positions = mark_table(positions, pos, 'U')
+            if check_line(positions) == True:
+                print("FORMOU LINHA!")
             ai_counter += 1
             user_counter += 1 
             draw_status_table(positions)
