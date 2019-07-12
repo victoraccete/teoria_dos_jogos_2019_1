@@ -127,17 +127,26 @@ def choose_first_pos(positions):
             return mark_table(positions, i, 'C')
     return positions
 
+def remove_adversary_piece(positions, adversary):
+    valid = False
+    pos = -1
+    while(valid == False):
+        pos = int(input("Escolha a posição para remover de 0 a 23:\n"))
+        if positions[pos].status == adversary:
+            valid = True
+        else:
+            print("Escolha uma posição com peça adversária.")
+    positions[pos].status = 'O'
+    draw_status_table(positions)
+    return positions
+
 def pieces_positioning(positions):
     user_counter = 0
     ai_counter = 0
     if(user_moves_first() == True):
         pos = int(input("Escolha a posição de 0 a 23:\n"))
         positions = mark_table(positions, pos, 'U')
-        if check_line(positions) == True:
-            print("FORMOU LINHA!")
         positions = choose_first_pos(positions) #
-        if check_line(positions) == True:
-            print("FORMOU LINHA!")
         user_counter += 1
         ai_counter += 1
         draw_status_table(positions)
@@ -147,22 +156,23 @@ def pieces_positioning(positions):
             positions = mark_table(positions, pos, 'U')
             if check_line(positions) == True:
                 print("FORMOU LINHA!")
+                draw_status_table(positions)
+                positions = remove_adversary_piece(positions, 'C')
             positions = choose_first_pos(positions) #
             if check_line(positions) == True:
                 print("FORMOU LINHA!")
+                print("Entrou aqui hmmm.")
+                draw_status_table(positions)
+                positions = remove_adversary_piece(positions, 'U')
             user_counter += 1 
             ai_counter += 1
             draw_status_table(positions)
             print(str(9-user_counter) + " jogadas restantes.")
     else:
         positions = choose_first_pos(positions) #
-        if check_line(positions) == True:
-            print("FORMOU LINHA!")
         draw_status_table(positions)
         pos = int(input("Escolha a posição de 0 a 23:\n"))
         positions = mark_table(positions, pos, 'U')
-        if check_line(positions) == True:
-            print("FORMOU LINHA!")
         ai_counter += 1
         user_counter += 1 
         draw_status_table(positions)
@@ -171,11 +181,16 @@ def pieces_positioning(positions):
             positions = choose_first_pos(positions) #
             if check_line(positions) == True:
                 print("FORMOU LINHA!")
+                print("Entrou aqui aaaaaaaa.")
+                draw_status_table(positions)
+                positions = remove_adversary_piece(positions, 'U')
             draw_status_table(positions)
             pos = int(input("Escolha a posição de 0 a 23:\n"))
             positions = mark_table(positions, pos, 'U')
             if check_line(positions) == True:
                 print("FORMOU LINHA!")
+                draw_status_table(positions)
+                positions = remove_adversary_piece(positions, 'C')
             ai_counter += 1
             user_counter += 1 
             draw_status_table(positions)
@@ -187,15 +202,7 @@ for i in range(24):
     pos = TablePosition(i, [])
     pos.set_adjs()
     positions.append(pos)
-
-# Esse 'for' é desnecessário:   
-#for i in range(24):
-#    print(positions[i].pos_num)
-#    print(positions[i].adjs)
     
 
 draw_status_table(positions)
 pieces_positioning(positions)
-#positions = mark_table(positions, 23, 'C')
-#positions = mark_table(positions, 12, 'U')
-#draw_status_table(positions)
